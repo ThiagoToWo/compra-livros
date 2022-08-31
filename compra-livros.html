@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Índice de Compra de Livros</title>
+    <style>
+        pre {font-size: 1.2em;}
+    </style>
+</head>
+
+<body>
+    <h1>Programa Índice de Compra de Livros</h1>
+    <form>
+        <p>Título do Livro.................:
+            <input type="text" id="inTitulo">
+        </p>
+        <p>Nome da Loja/Vendedor..:
+            <input type="text" id="inVendedor" autofocus required>
+        </p>
+        <p>Qualificação Positiva (%):
+            <input type="number" id="inQualificacao" min="0" max="100" required>
+        </p>        
+        <p>Estado do livro.................:
+            <select id="selEstado">
+                <option value="1">1 (ruim)</option>
+                <option value="2" selected>2 (bom)</option>
+                <option value="3">3 (muito bom)</option>
+                <option value="4">4 (novo)</option>
+            </select>
+        </p>
+        <p>Preço (R$)........................:
+            <input type="number" id="inPreco" min="0" step="0.01" required>
+        </p>
+        <p>Frete (R$).........................:
+            <input type="number" id="inFrete" min="0" step="0.01" required>
+        </p>
+        <p>Ano de Publicação...........:
+            <input type="number" id="inAno" min="0" required>
+        </p>
+        <p>Prazo de entrega (dias).....:
+            <input type="number" id="inPrazo" min="0" required>
+        </p>
+        <input type="submit" value="Calcular e Adicionar na Lista">
+    </form>
+    <pre></pre>
+    <script>
+        const form = document.querySelector("form");
+        const pre = document.querySelector("pre");
+
+        const livros = [];
+
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+
+            const titulo = form.inTitulo.value;
+            const vendedor = form.inVendedor.value;
+            const qualificacao = Number(form.inQualificacao.value);
+            const estado = Number(form.selEstado.value);
+            const preco = Number(form.inPreco.value);
+            const frete = Number(form.inFrete.value);
+            const idade = Number(new Date().getFullYear() - form.inAno.value);
+            const prazo = Number(form.inPrazo.value);
+
+            const livro = {
+                titulo,
+                vendedor,
+                qualificacao,
+                estado,
+                preco,
+                frete,
+                idade,
+                prazo,
+                indice: iLivro(
+                    qualificacao,
+                    estado,
+                    preco,
+                    frete,
+                    idade,
+                    prazo
+                )
+            }
+
+            livros.push(livro);
+            livros.sort((a, b) => b.indice - a.indice);
+            livros.sort((a, b) => a.titulo - b.titulo);
+
+            let lista = "LISTA DE VENDEDORES E ÍNDICES DOS LIVROS\n\n";
+
+            for (const livro of livros) {
+                lista = `${lista}${livro.vendedor}:\n\tLivro: ${livro.titulo}\n\tÍndice = ${livro.indice.toFixed()} pontos\n\n`;
+            }
+
+            pre.innerText = lista;
+
+            form.inVendedor.value = "";
+            form.inQualificacao.value = "";
+            form.selEstado.value = "2";
+            form.inPreco.value = "";
+            form.inFrete.value = "";
+            form.inAno.value = "";
+            form.inPrazo.value = "";
+            form.inVendedor.focus();
+        });
+
+        function iLivro(qlf, est, prc, frt, idd, prz) {
+            return 1000 * (qlf + est) / (prc + frt + idd + prz);
+        }
+    </script>
+</body>
+
+</html>
