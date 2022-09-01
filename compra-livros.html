@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Índice de Compra de Livros</title>
     <style>
-        pre {font-size: 1.2em;}
+        pre {
+            font-size: 1.2em;
+        }
     </style>
 </head>
 
@@ -21,7 +23,7 @@
         </p>
         <p>Qualificação Positiva (%):
             <input type="number" id="inQualificacao" min="0" max="100" required>
-        </p>        
+        </p>
         <p>Estado do livro.................:
             <select id="selEstado">
                 <option value="1">1 (ruim)</option>
@@ -50,6 +52,63 @@
         const pre = document.querySelector("pre");
 
         const livros = [];
+        /*const livros = [
+            {
+                titulo: "Numerical Recipes in C",
+                vendedor: "Recriar Shop",
+                qualificacao: 97,
+                estado: 2,
+                preco: 178,
+                frete: 24.29,
+                idade: 30,
+                prazo: 13,
+                indice: iLivro(this.qualificacao, this.estado, this.preco, this.frete, this.idade, this.prazo)
+            },
+            {
+                titulo: "Numerical Recipes in C",
+                vendedor: "Sebo e Lojão",
+                qualificacao: 100,
+                estado: 2,
+                preco: 180,
+                frete: 24.29,
+                idade: 30,
+                prazo: 13,
+                indice: iLivro(this.qualificacao, this.estado, this.preco, this.frete, this.idade, this.prazo)
+            },
+            {
+                titulo: "Numerical Recipes in C",
+                vendedor: "Cidade dos Versos",
+                qualificacao: 100,
+                estado: 2,
+                preco: 186.49,
+                frete: 0,
+                idade: 29,
+                prazo: 12,
+                indice: iLivro(this.qualificacao, this.estado, this.preco, this.frete, this.idade, this.prazo)
+            },
+            {
+                titulo: "Numerical Recipes in C",
+                vendedor: "GF Books",
+                qualificacao: 94,
+                estado: 3,
+                preco: 192.46,
+                frete: 24.29,
+                idade: 0,
+                prazo: 28,
+                indice: iLivro(this.qualificacao, this.estado, this.preco, this.frete, this.idade, this.prazo)
+            },
+            {
+                titulo: "Numerical Recipes in C",
+                vendedor: "Ergodebooks",
+                qualificacao: 91,
+                estado: 2,
+                preco: 60.12,
+                frete: 163.20,
+                idade: 30,
+                prazo: 40,
+                indice: iLivro(this.qualificacao, this.estado, this.preco, this.frete, this.idade, this.prazo)
+            }
+        ]*/
 
         form.addEventListener("submit", (e) => {
             e.preventDefault();
@@ -89,7 +148,11 @@
             let lista = "LISTA DE VENDEDORES E ÍNDICES DOS LIVROS\n\n";
 
             for (const livro of livros) {
-                lista = `${lista}${livro.vendedor}:\n\tLivro: ${livro.titulo}\n\tÍndice = ${livro.indice.toFixed()} pontos\n\n`;
+                lista = `${lista}${livro.vendedor} (${livro.qualificacao}%): 
+    ÍNDICE: ${livro.indice.toFixed()} pontos
+    LIVRO: ${livro.titulo}  PREÇO: R$ ${livro.preco.toFixed(2)}
+    FRETE: R$ ${livro.frete.toFixed(2)} PRAZO: ${livro.prazo} dias  
+    EDIÇÃO: ${new Date().getFullYear() - livro.idade}   ESTADO DO LIVRO: ${livro.estado == 1 ? "ruim" : livro.estado == 2 ? "bom" : livro.estado == 3 ? "muito bom" : "novo"}\n`;
             }
 
             pre.innerText = lista;
@@ -105,7 +168,7 @@
         });
 
         function iLivro(qlf, est, prc, frt, idd, prz) {
-            return 1000 * (qlf + est) / (prc + frt + idd + prz);
+            return 1000 * (qlf + 10 * est) / (prc + frt + idd + prz);
         }
     </script>
 </body>
