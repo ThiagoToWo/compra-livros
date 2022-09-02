@@ -1,0 +1,20 @@
+body {
+    background-color: rgb(183, 214, 214);
+}
+
+h1 {
+    border-bottom: inset;
+}
+
+form {
+    position: absolute;
+    width: auto;
+    margin-left: 1%;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 5px;
+    border-style: double;
+}
+.letra-grande {
+    font-size: 1.2em;
+}

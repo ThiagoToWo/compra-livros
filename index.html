@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Índice de Compra de Livros</title>
+    <link rel="stylesheet" href="estilos.css">
+    <!--<script src="dados-teste.js"></script>-->
+</head>
+
+<body>
+    <h1>Índice de Compra de Livros</h1>
+    <p>
+        Calculadora para indicar a melhor opção de compra de um livro 
+        levando em consideração a qualificação do vendedor, o estado do livro, 
+        o preço, o frete, a idade do livro e o prazo de entrega.
+    </p>
+    <p>
+        O cálculo dos pontos é feito da seguinte forma:
+        <pre>
+                1000.(qualificação% + 10.estado) <br>
+    índice = -------------------------------------<br>
+                (preço + frete + idade + prazo)
+        </pre>
+    </p>
+    <form>
+        <p>Título do Livro.................:
+            <input type="text" id="inTitulo">
+        </p>
+        <p>Nome da Loja/Vendedor..:
+            <input type="text" id="inVendedor" autofocus required>
+        </p>
+        <p>Qualificação Positiva (%):
+            <input type="number" id="inQualificacao" min="0" max="100" required>
+        </p>
+        <p>Estado do livro.................:
+            <select id="selEstado">
+                <option value="1">1 (ruim)</option>
+                <option value="2" selected>2 (bom)</option>
+                <option value="3">3 (muito bom)</option>
+                <option value="4">4 (novo)</option>
+            </select>
+        </p>
+        <p>Preço (R$)........................:
+            <input type="number" id="inPreco" min="0" step="0.01" required>
+        </p>
+        <p>Frete (R$).........................:
+            <input type="number" id="inFrete" min="0" step="0.01" required>
+        </p>
+        <p>Ano de Publicação...........:
+            <input type="number" id="inAno" min="0" required>
+        </p>
+        <p>Prazo de entrega (dias).....:
+            <input type="number" id="inPrazo" min="0" required>
+        </p>
+        <input type="submit" value="Calcular e Adicionar à Lista">
+    </form>
+    <pre class="letra-grande"></pre>
+    <script src="script.js"></script>
+</body>
+
+</html>
