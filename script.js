@@ -1,5 +1,5 @@
 const form = document.querySelector("form");
-const pre = document.querySelector("pre");
+const pre = document.querySelector("#lista");
 
 const livros = [];
 
