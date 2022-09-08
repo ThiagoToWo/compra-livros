@@ -25,20 +25,7 @@ function salvar() {
     localStorage.setItem("livrosPesquisados", JSON.stringify(livros));
 }
 
-function carregar() {
-    if (localStorage.getItem("livrosPesquisados")) {        
-        livros = JSON.parse(localStorage.getItem("livrosPesquisados"));
-    }
-
-    mostrarLivros();
-}
-
-function limpar() {
-    localStorage.removeItem("livrosPesquisados");
-    pre.innerText = "";
-}
-
-form.addEventListener("submit", (e) => {
+function adicionar(e) {
     e.preventDefault();
 
     const titulo = form.inTitulo.value;
@@ -84,7 +71,20 @@ form.addEventListener("submit", (e) => {
     form.inAno.value = "";
     form.inPrazo.value = "";
     form.inVendedor.focus();
-});
+}
 
+function carregar() {
+    if (localStorage.getItem("livrosPesquisados")) {        
+        livros = JSON.parse(localStorage.getItem("livrosPesquisados"));
+        mostrarLivros();
+    }    
+}
+
+function limpar() {
+    localStorage.removeItem("livrosPesquisados");
+    pre.innerText = "";
+}
+
+form.addEventListener("submit", adicionar);
 form.inLimpar.addEventListener("click", limpar);
 window.addEventListener("load", carregar);
