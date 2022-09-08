@@ -1,7 +1,42 @@
 const form = document.querySelector("form");
 const pre = document.querySelector("#lista");
 
-const livros = [];
+let livros = [];
+
+function iLivro(qlf, est, prc, frt, idd, prz) {
+    return 1000 * (qlf + 10 * est) / (prc + frt + idd + prz);
+}
+
+function mostrarLivros() {
+    let lista = "LISTA DE VENDEDORES E ÍNDICES DOS LIVROS\n\n";
+
+    for (const livro of livros) {
+        lista = `${lista}- ${livro.vendedor} (${livro.indice.toFixed()} pontos):
+    QUALIFACAÇÃO: ${livro.qualificacao}% positivas
+    LIVRO: ${livro.titulo}  PREÇO: R$ ${livro.preco.toFixed(2)}
+    FRETE: R$ ${livro.frete.toFixed(2)} PRAZO: ${livro.prazo} dias
+    EDIÇÃO: ${new Date().getFullYear() - livro.idade}   ESTADO DO LIVRO: ${livro.estado == 1 ? "ruim" : livro.estado == 2 ? "bom" : livro.estado == 3 ? "muito bom" : "novo"}\n\n`;
+    }
+
+    pre.innerText = lista;
+}
+
+function salvar() {
+    localStorage.setItem("livrosPesquisados", JSON.stringify(livros));
+}
+
+function carregar() {
+    if (localStorage.getItem("livrosPesquisados")) {        
+        livros = JSON.parse(localStorage.getItem("livrosPesquisados"));
+    }
+
+    mostrarLivros();
+}
+
+function limpar() {
+    localStorage.removeItem("livrosPesquisados");
+    pre.innerText = "";
+}
 
 form.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -36,19 +71,10 @@ form.addEventListener("submit", (e) => {
 
     livros.push(livro);
     livros.sort((a, b) => b.indice - a.indice);
-    livros.sort((a, b) => a.titulo - b.titulo);
+    livros.sort((a, b) => a.titulo - b.titulo);   
 
-    let lista = "LISTA DE VENDEDORES E ÍNDICES DOS LIVROS\n\n";
-
-    for (const livro of livros) {
-        lista = `${lista}- ${livro.vendedor} (${livro.indice.toFixed()} pontos):
-    QUALIFACAÇÃO: ${livro.qualificacao}% positivas
-    LIVRO: ${livro.titulo}  PREÇO: R$ ${livro.preco.toFixed(2)}
-    FRETE: R$ ${livro.frete.toFixed(2)} PRAZO: ${livro.prazo} dias
-    EDIÇÃO: ${new Date().getFullYear() - livro.idade}   ESTADO DO LIVRO: ${livro.estado == 1 ? "ruim" : livro.estado == 2 ? "bom" : livro.estado == 3 ? "muito bom" : "novo"}\n\n`;
-    }
-
-    pre.innerText = lista;
+    salvar();
+    mostrarLivros();   
 
     form.inVendedor.value = "";
     form.inQualificacao.value = "";
@@ -60,6 +86,5 @@ form.addEventListener("submit", (e) => {
     form.inVendedor.focus();
 });
 
-function iLivro(qlf, est, prc, frt, idd, prz) {
-    return 1000 * (qlf + 10 * est) / (prc + frt + idd + prz);
-}
+form.inLimpar.addEventListener("click", limpar);
+window.addEventListener("load", carregar);
