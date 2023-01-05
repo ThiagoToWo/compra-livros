@@ -83,6 +83,7 @@ function carregar() {
 function limpar() {
     localStorage.removeItem("livrosPesquisados");
     pre.innerText = "";
+    window.location.reload;
 }
 
 form.addEventListener("submit", adicionar);
